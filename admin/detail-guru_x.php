@@ -5,7 +5,6 @@ if (empty($_SESSION['username'])){
 } else {
 	include "../conn.php";
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -17,9 +16,9 @@ if (empty($_SESSION['username'])){
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="../css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -72,12 +71,12 @@ $_SESSION['start_time'] = time();
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Admin
+            Staff
             <small>ECMS</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active">Admin</li>
+            <li class="active">Detail Guru</li>
           </ol>
         </section>
 
@@ -92,7 +91,7 @@ $_SESSION['start_time'] = time();
               <div class="box box-primary">
                 <div class="box-header">
                   <i class="ion ion-clipboard"></i>
-                  <h3 class="box-title">Detail Data Admin</h3>
+                  <h3 class="box-title">Detail Data Guru</h3>
                   <!-- <div class="box-tools pull-right">
                     <ul class="pagination pagination-sm inline">
                       <li><a href="#">&laquo;</a></li>
@@ -104,38 +103,29 @@ $_SESSION['start_time'] = time();
                   </div> -->
                 </div><!-- /.box-header -->
                 <?php
-            $query = mysqli_query($koneksi, "SELECT * FROM user WHERE user_id='$id'");
+            $query = mysqli_query($koneksi, "SELECT * FROM guru WHERE kd_guru='$_GET[id]'");
             $data  = mysqli_fetch_array($query);
             ?>
                 <div class="box-body">
                   <div class="form-panel">
                       <table id="example" class="table table-hover table-bordered">
                       <tr>
-                      <td>Username</td>
-                      <td><?php echo $data['username']; ?></td>
-                      <td rowspan="5"><div class="pull-right image">
-                            <img src="<?php echo $data['gambar']; ?>" class="img-rounded" height="300" width="250" alt="User Image" style="border: 2px solid #666;" />
-                        </div></td>
+                      <td>Kode Guru</td>
+                      <td><?php echo $data['kd_guru']; ?></td>
+                      <td rowspan="8"><img src="<?php echo $data['kd_guru'] ?>" class="img-rounded" height="300" width="225" style="border: 2px solid #666666;" /></td>
                       </tr>
                       <tr>
-                      <td width="250">Password</td>
-                      <td width="565" colspan="1"><?php echo $data['password']; ?></td>
+                      <td width="250">Nama</td>
+                      <td width="700" colspan="1"><?php echo $data['nama_guru']; ?></td>
                       </tr>
                       <tr>
-                      <td>Fullname</td>
-                      <td colspan="1"><?php echo $data['fullname']; ?></td>
+                      <td>Alamat</td>
+                      <td><?php echo $data['alamat_guru']; ?></td>
                       </tr>
-                      <tr>
-                      <td>Privilege</td>
-                      <td colspan="1"><?php echo $data['privilege']; ?></td>
-                      </tr>
-                      <tr>
-                      <td>Gambar</td></td>
-                      <td colspan="1"><?php echo $data['gambar']; ?></td>
-                      </tr>
+                      
                       </table>
                       <div class="text-right">
-                  <a href="admin.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
+                  <a href="member.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
               
                 </div>
                   </div>

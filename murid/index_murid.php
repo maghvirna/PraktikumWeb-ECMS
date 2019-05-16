@@ -49,7 +49,7 @@ if (empty($_SESSION['username'])){
 
       <?php include "header.php"; ?>
       <!-- Left side column. contains the logo and sidebar -->
-    <?php include "menu.php"; ?>
+    <?php include "menu_murid.php"; ?>
 
 <?php
 $timeout = 10; // Set timeout minutes
@@ -75,7 +75,7 @@ $_SESSION['start_time'] = time();
             <small>Control panel</small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            
             <li class="active">Dashboard</li>
           </ol>
         </section>

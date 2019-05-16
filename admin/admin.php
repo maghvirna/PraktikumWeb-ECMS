@@ -1,7 +1,7 @@
 <?php 
 session_start();
 if (empty($_SESSION['username'])){
-	header('location:../index.php');	
+	header('location:../admin/index.php');	
 } else {
 	include "../conn.php";
 ?>
@@ -47,7 +47,7 @@ if (empty($_SESSION['username'])){
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
-      <?php include "header.php"; ?>
+      <?php include "../header.php"; ?>
       <!-- Left side column. contains the logo and sidebar -->
       <?php include "menu.php"; ?>
 
@@ -71,12 +71,12 @@ $_SESSION['start_time'] = time();
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Admin
+            User Management
             <small>ECMS</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active">Admin</li>
+            <li class="active">User Management</li>
           </ol>
         </section>
 
@@ -91,7 +91,7 @@ $_SESSION['start_time'] = time();
               <div class="box box-primary">
                 <div class="box-header">
                   <i class="ion ion-clipboard"></i>
-                  <h3 class="box-title">Data Admin</h3>
+                  <h3 class="box-title">Data User</h3>
                   <div class="box-tools pull-right">
                   <form action='admin.php' method="POST">
     	             <div class="input-group" style="width: 230px;">
@@ -113,6 +113,7 @@ $_SESSION['start_time'] = time();
           	</div>
             </form>-->
                   <?php
+          
                     $query1="select * from user";
                     
                     if(isset($_POST['qcari'])){
@@ -126,36 +127,39 @@ $_SESSION['start_time'] = time();
                   <table id="example" class="table table-responsive table-hover table-bordered">
                   <thead>
                       <tr>
-                        <th><center>No </center></th>
+                        <th><center>User ID </center></th>
                         <th><center>Username </center></th>
                         <th><center>Password </center></th>
                         <th><center>Fullname </center></th>
                         <th><center>Privilege </center></th>
                         <th><center>Gambar</center></th>
+                          <th><center>Tools</center></th>      
                       </tr>
                   </thead>
-                     <?php 
-                     $no=0;
-                     while($data=mysqli_fetch_array($tampil))
-                    { $no++; ?>
-                    <tbody>
-                    <tr>
-                    <td><center><?php echo $no; ?></center></td>
-                    <td><center><?php echo $data['username'];?></center></td>
-                    <td><center><?php echo $data['password'];?></center></td>
-                    <td><center><a href="detail-admin.php?hal=edit&kd=<?php echo $data['user_id'];?>"><span class="glyphicon glyphicon-user"></span> <?php echo $data['fullname']; ?></a></center></td>
-                    <td><center><?php echo $data['Privilege'];?></center></td>
-                    <td><center><?php 
-                            if($data['level'] == 'admin'){
+                     <?php
+                  $no = 0;
+                  while ($data = mysqli_fetch_array($tampil)) {
+                      $no++;
+                      ?>
+                      <tbody>
+                          <tr>
+                              <td><center><?php echo $data['user_id']; ?></center></td>
+                      <td><center><?php echo $data['username']; ?></center></td>
+                      <td><center><?php echo $data['password']; ?></center></td>
+                 <td><center><a href="detail-admin.php?hal=edit&kd=<?php echo $data['user_id'];?>"><span class="glyphicon glyphicon-user"></span> <?php echo $data['fullname']; ?></a></center></td>
+                  <td><center><?php 
+                            if($data['privilege'] == 'admin'){
 								echo '<span class="label label-success">Admin</span>';
 							}
-                            else if ($data['level'] == 'superuser' ){
+                            else if ($data['privilege'] == 'superuser' ){
 								echo '<span class="label label-primary">Super User</span>';
 							}
-                            else if ($data['level'] == 'user' ){
+                            else if ($data['privilege'] == 'user' ){
 								echo '<span class="label label-info">User</span>';
 							}
-                             ?></center></td>
+                             ?></center></td>  
+                   <td><center><?php echo $data['gambar_user'];?></center></td>
+                    
                     <!--<td><center><img src="<?php //echo $data['gambar']; ?>" class="img-circle" height="80" width="75" style="border: 3px solid #888;" /></center></td>-->
                     <td><center><div id="thanks"><a class="btn btn-sm btn-primary" data-placement="bottom" data-toggle="tooltip" title="Edit Admin" href="edit-admin.php?hal=edit&kd=<?php echo $data['user_id'];?>"><span class="glyphicon glyphicon-edit"></span></a>  
                         <a onclick="return confirm ('Yakin hapus <?php echo $data['fullname'];?>.?');" class="btn btn-sm btn-danger tooltips" data-placement="bottom" data-toggle="tooltip" title="Hapus Admin" href="hapus-admin.php?hal=hapus&kd=<?php echo $data['user_id'];?>"><span class="glyphicon glyphicon-trash"></a></center></td></tr></div>
@@ -166,7 +170,7 @@ $_SESSION['start_time'] = time();
                    </table>
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix no-border">
-                  <a href="input-admin.php" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> Tambah Admin</a>
+                  <a href="input-admin.php" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> Tambah User</a>
                   </div>
               </div><!-- /.box -->
 
@@ -175,9 +179,9 @@ $_SESSION['start_time'] = time();
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-      <?php include "footer.php"; ?>
+      <?php include "../footer.php"; ?>
 
-      <?php include "sidecontrol.php"; ?>
+      <?php include "../sidecontrol.php"; ?>
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
