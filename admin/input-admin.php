@@ -1,7 +1,7 @@
 <?php 
 session_start();
 if (empty($_SESSION['username'])){
-	header('location:../index.php');	
+	header('location:../admin/index.php');	
 } else {
 	include "../conn.php";
 ?>
@@ -10,7 +10,7 @@ if (empty($_SESSION['username'])){
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>HRMS (Human Resource Management System)</title>
+    <title>ECMS (Education Course Management System)</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -47,9 +47,9 @@ if (empty($_SESSION['username'])){
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
-      <?php include "header.php"; ?>
-      <!-- Left side column. contains the logo and sidebar -->
-      <?php include "menu.php"; ?>
+       <?php include "../header.php"; ?>
+                <!-- Left side column. contains the logo and sidebar -->
+       <?php include "../admin/menu.php"; ?>
 
 <?php
 $timeout = 10; // Set timeout minutes
@@ -71,12 +71,12 @@ $_SESSION['start_time'] = time();
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Admin
-            <small>HRMS</small>
+            User Management
+            <small>ECMS</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active">Admin</li>
+            <li class="active">User Management</li>
           </ol>
         </section>
 
@@ -91,7 +91,7 @@ $_SESSION['start_time'] = time();
               <div class="box box-primary">
                 <div class="box-header">
                   <i class="ion ion-clipboard"></i>
-                  <h3 class="box-title">Input Data Admin</h3>
+                  <h3 class="box-title">Input Data User</h3>
                   <!-- <div class="box-tools pull-right">
                     <ul class="pagination pagination-sm inline">
                       <li><a href="#">&laquo;</a></li>
@@ -105,12 +105,7 @@ $_SESSION['start_time'] = time();
                 <div class="box-body">
                   <div class="form-panel">
                       <form class="form-horizontal style-form" action="insert-admin.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">User ID</label>
-                              <div class="col-sm-8">
-                                  <input name="user_id" type="text" id="user_id" class="form-control" placeholder="Tidak perlu di isi" autofocus="on" readonly="readonly" />
-                              </div>
-                          </div>
+                         
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Username</label>
                               <div class="col-sm-8">
@@ -130,17 +125,12 @@ $_SESSION['start_time'] = time();
                                   <input name="fullname" class="form-control" id="fullname" type="text" placeholder="Fullname" autocomplete="off" required />
                               </div>
                           </div>
+                         
                           <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">No Handphone</label>
-                              <div class="col-sm-8">
-                                  <input name="no_hp" class="form-control" id="no_hp" type="text" placeholder="No Handphone" autocomplete="off" required />
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Level</label>
+                              <label class="col-sm-2 col-sm-2 control-label">Privilege</label>
                               <div class="col-sm-3">
-                            <select name="level" class="form-control" required>
-							<option value=""> -- Pilih Level Pengguna -- </option>
+                            <select name="privilege" class="form-control" required>
+							<option value=""> -- Pilih Privilege -- </option>
 							<option value="admin">Admin</option>
 							<option value="superuser">Superuser</option>
                             <option value="user">User</option>
@@ -173,9 +163,9 @@ $_SESSION['start_time'] = time();
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-      <?php include "footer.php"; ?>
+      <?php include "../footer.php"; ?>
 
-      <?php include "sidecontrol.php"; ?>
+      <?php include "../sidecontrol.php"; ?>
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>

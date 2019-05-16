@@ -10,7 +10,7 @@ if (empty($_SESSION['username'])){
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>HRMS (Human Resource Management System)</title>
+    <title>ECMS (Education Course Management System)</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -47,9 +47,9 @@ if (empty($_SESSION['username'])){
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
-      <?php include "header.php"; ?>
+      <?php include "../header.php"; ?>
       <!-- Left side column. contains the logo and sidebar -->
-      <?php include "menu.php"; ?>
+      <?php include "../admin/menu.php"; ?>
 
 <?php
 $timeout = 10; // Set timeout minutes
@@ -71,12 +71,12 @@ $_SESSION['start_time'] = time();
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Admin
-            <small>HRMS</small>
+            User Management
+            <small>ECMS</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active">Admin</li>
+            <li class="active">ECMS</li>
           </ol>
         </section>
 
@@ -91,7 +91,7 @@ $_SESSION['start_time'] = time();
               <div class="box box-primary">
                 <div class="box-header">
                   <i class="ion ion-clipboard"></i>
-                  <h3 class="box-title">Data Admin</h3>
+                  <h3 class="box-title">Data User</h3>
                   <div class="box-tools pull-right">
                   <form action='admin.php' method="POST">
     	             <div class="input-group" style="width: 150px;">
@@ -126,7 +126,7 @@ $_SESSION['start_time'] = time();
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Username</label>
                               <div class="col-sm-10">
-                                  <input name="username" type="text" id="username" class="form-control" value="<?php echo $data['username'];?>" required />
+                                  <input name="username" type="text" id="username" class="form-control" value="<?php echo $data['username'];?>" readonly="readonly" autofocus="on" />
                                   <!--<span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>-->
                               </div>
                           </div>
@@ -142,31 +142,26 @@ $_SESSION['start_time'] = time();
                                   <input name="fullname" class="form-control" id="fullname" type="text" value="<?php echo $data['fullname'];?>" required />
                               </div>
                           </div>
+                         
                           <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">No Handphone</label>
-                              <div class="col-sm-10">
-                                  <input name="no_hp" class="form-control" id="no_hp" type="text" value="<?php echo $data['no_hp'];?>" required />
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Level</label>
+                              <label class="col-sm-2 col-sm-2 control-label">Privilege</label>
                               <div class="col-sm-3">
                             <select name="level" class="form-control" required>
-							<option value=""> -- Pilih Level -- </option>
+							<option value=""> -- Pilih Privilege -- </option>
 							<option value="admin">Admin</option>
 							<option value="superuser">Superuser</option>
                             <option value="user">User</option>
 						    </select>
                               </div>
-                              <label class="col-sm-3 col-sm-3 control-label">Level Sebelumnya : </label>
+                              <label class="col-sm-3 col-sm-3 control-label">Privilege Sebelumnya : </label>
                               <div class="col-sm-3">
-                              <span class="label label-primary"><?php echo $data['level'];  ?></span>
+                              <span class="label label-primary"><?php echo $data['privilege'];  ?></span>
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Gambar</label>
                               <div class="col-sm-10">
-                                  <img src="<?php echo $data['gambar'];?>" width="200" height="250" class="img-rounded" style="border: 3px solid #888;"/>
+                                  <img src="<?php echo $data['gambar_user'];?>" width="200" height="250" class="img-rounded" style="border: 3px solid #888;"/>
                               </div>
                           </div>
                           <div class="form-group">
@@ -189,9 +184,9 @@ $_SESSION['start_time'] = time();
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-      <?php include "footer.php"; ?>
+      <?php include "../footer.php"; ?>
 
-      <?php include "sidecontrol.php"; ?>
+      <?php include "../sidecontrol.php"; ?>
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>

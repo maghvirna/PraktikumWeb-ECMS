@@ -1,10 +1,12 @@
 <?php 
 session_start();
 if (empty($_SESSION['username'])){
-	header('location:../index.php');	
+	header('location:../admin/index.php');	
 } else {
 	include "../conn.php";
+	
 ?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -49,11 +51,13 @@ if (empty($_SESSION['username'])){
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
-      <?php include "header.php"; ?>
+      <?php include "../header.php"; ?>
       <!-- Left side column. contains the logo and sidebar -->
-      <?php include "menu.php"; ?>
-
-<?php
+		<?php include "../guru/menu_guru.php"; ?>
+	  
+	
+	<?php
+	
 $timeout = 10; // Set timeout minutes
 $logout_redirect_url = "../index.php"; // Set logout URL
 
@@ -73,12 +77,11 @@ $_SESSION['start_time'] = time();
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Staff
-            <small>ECMS</small>
+            <b>Jadwal Pembelajaran</b>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active">Staff</li>
+            <li><a href="d_guru.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Guru</li>
           </ol>
         </section>
 
@@ -93,45 +96,24 @@ $_SESSION['start_time'] = time();
               <div class="box box-primary">
                 <div class="box-header">
                   <i class="ion ion-clipboard"></i>
-                  <h3 class="box-title">Data Staff</h3>
+                  <h1 class="box-title">Semester Genap (2018-2019) </h1>
                   <div class="box-tools pull-right">
                   </div> 
                 </div><!-- /.box-header -->
                 
                 <div class="box-body">
-                <?php
-             if(isset($_GET['aksi']) == 'delete'){
-				$id = $_GET['id'];
-				$cek = mysql_query($koneksi, "select * from staff where kd_staff='$id'");
-				if(mysqli_num_rows($cek) == 0){
-					echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data tidak ditemukan.</div>';
-				}else{
-					$delete = mysqli_query($koneksi, "DELETE FROM karyawan WHERE nik='$id'");
-					if($delete){
-						echo '<div class="alert alert-primary alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data berhasil dihapus.</div>';
-					}else{
-						echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data gagal dihapus.</div>';
-					}
-				}
-			}
-			?>
-                <!-- <form action='admin.php' method="POST">
-          
-	       <input type='text' class="form-control" style="margin-bottom: 4px;" name='qcari' placeholder='Cari berdasarkan User ID dan Username' required /> 
-           <input type='submit' value='Cari Data' class="btn btn-sm btn-primary" /> <a href='admin.php' class="btn btn-sm btn-success" >Refresh</i></a>
-          	</div>
-            </form>-->
-            <a href="member_importxls.php" class="btn btn-sm btn-warning"><i class="fa fa-file"></i> Import Excel</a> <a href="member_exportxls.php" class="btn btn-sm btn-success"><i class="fa fa-file"></i> Export Excel</a><br /><br />
-                   <div class="table">
+             
+                 <div class="table">
                    <table id="lookup" class="table table-bordered table-hover">  
 	<thead bgcolor="eeeeee" align="center">
       <tr>
 	  
-       <th>Kd Staff</th>
-	   <th>Nama</th>
-       <th>Alamat</th>
-       
-	   <th class="text-center"> Action </th> 
+        
+         <th>Nama </th>
+		<th>Nama Pelajaran</th> 
+		<th>Jam Mulai</th>
+        <th>Jam Selesai</th>
+		<th>Ruang</th>
 	  
       </tr>
     </thead>
@@ -140,11 +122,10 @@ $_SESSION['start_time'] = time();
 					 
     </tbody>
   </table>
-  <b>Note : K1 = Kontrak 1</b>  
   </div>
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix no-border">
-                  <a href="input-member.php" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> Tambah Member</a>
+                  
                   </div>
               </div><!-- /.box -->
 
@@ -153,9 +134,9 @@ $_SESSION['start_time'] = time();
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-      <?php include "footer.php"; ?>
+      <?php include "../footer.php"; ?>
 
-      <?php include "sidecontrol.php"; ?>
+      <?php include "../sidecontrol.php"; ?>
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
@@ -190,7 +171,7 @@ $_SESSION['start_time'] = time();
 					"processing": true,
 					"serverSide": true,
 					"ajax":{
-						url :"ajax-grid-data.php", // json datasource
+						url :"ajax-grid-d_guru.php", // json datasource
 						type: "post",  // method  , by default get
 						error: function(){  // error handling
 							$(".lookup-error").html("");

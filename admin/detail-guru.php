@@ -1,7 +1,7 @@
 <?php 
 session_start();
 if (empty($_SESSION['username'])){
-	header('location:../index.php');	
+	header('location:../admin/index.php');	
 } else {
 	include "../conn.php";
 ?>
@@ -36,8 +36,6 @@ if (empty($_SESSION['username'])){
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-    <!-- css table datatables/dataTables -->
-	<link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -49,9 +47,9 @@ if (empty($_SESSION['username'])){
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
-      <?php include "header.php"; ?>
+      <?php include "../admin/header.php"; ?>
       <!-- Left side column. contains the logo and sidebar -->
-      <?php include "menu.php"; ?>
+      <?php include "../admin/menu_guru.php"; ?>
 
 <?php
 $timeout = 10; // Set timeout minutes
@@ -73,12 +71,12 @@ $_SESSION['start_time'] = time();
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Murid
+            Staff
             <small>ECMS</small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active">Murid</li>
+            <li><a href="d_guru.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Detail Guru</li>
           </ol>
         </section>
 
@@ -93,63 +91,48 @@ $_SESSION['start_time'] = time();
               <div class="box box-primary">
                 <div class="box-header">
                   <i class="ion ion-clipboard"></i>
-                  <h3 class="box-title">Data Murid</h3>
-                  <div class="box-tools pull-right">
-                  </div> 
+                  <h3 class="box-title">Detail Data Guru</h3>
+                  <!-- <div class="box-tools pull-right">
+                    <ul class="pagination pagination-sm inline">
+                      <li><a href="#">&laquo;</a></li>
+                      <li><a href="#">1</a></li>
+                      <li><a href="#">2</a></li>
+                      <li><a href="#">3</a></li>
+                      <li><a href="#">&raquo;</a></li>
+                    </ul>
+                  </div> -->
                 </div><!-- /.box-header -->
-                
-                <div class="box-body">
                 <?php
-             if(isset($_GET['aksi']) == 'delete'){
-				$id = $_GET['id'];
-				$cek = mysqli_query($koneksi, "SELECT * FROM murid WHERE kd_murid='$id'");
-				if(mysqli_num_rows($cek) == 0){
-					echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data tidak ditemukan.</div>';
-				}else{
-					$delete = mysqli_query($koneksi, "DELETE FROM karyawan WHERE nik='$id'");
-					if($delete){
-						echo '<div class="alert alert-primary alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data berhasil dihapus.</div>';
-					}else{
-						echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data gagal dihapus.</div>';
-					}
-				}
-			}
-			?>
-                <!-- <form action='admin.php' method="POST">
-          
-	       <input type='text' class="form-control" style="margin-bottom: 4px;" name='qcari' placeholder='Cari berdasarkan User ID dan Username' required /> 
-           <input type='submit' value='Cari Data' class="btn btn-sm btn-primary" /> <a href='admin.php' class="btn btn-sm btn-success" >Refresh</i></a>
-          	</div>
-            </form>-->
-            <a href="member_importxls.php" class="btn btn-sm btn-warning"><i class="fa fa-file"></i> Import Excel</a> <a href="member_exportxls.php" class="btn btn-sm btn-success"><i class="fa fa-file"></i> Export Excel</a><br /><br />
-                   <div class="table">
-                   <table id="lookup" class="table table-bordered table-hover">  
-	<thead bgcolor="eeeeee" align="center">
-      <tr>
-	  
-       <th>Nik</th>
-	   <th>Nama</th>
-       <th>Bagian</th>
-       <th>K1 Join</th>
-       <th>K1 Finish</th>
-       <th>K2 Join</th>
-       <th>K2 Finish</th>
-       <th>Status</th>
-	   <th class="text-center"> Action </th> 
-	  
-      </tr>
-    </thead>
-    <tbody>
-	 
-					 
-    </tbody>
-  </table>
-  <b>Note : K1 = Kontrak 1</b>  
-  </div>
-                </div><!-- /.box-body -->
-                <div class="box-footer clearfix no-border">
-                  <a href="input-member.php" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> Tambah Member</a>
+            $query = mysqli_query($koneksi, "SELECT * FROM guru WHERE kd_guru='$_GET[id]'");
+            $data  = mysqli_fetch_array($query);
+            ?>
+                <div class="box-body">
+                  <div class="form-panel">
+                      <table id="example" class="table table-hover table-bordered">
+                      <tr>
+                      <td>Kode Guru</td>
+                      <td><?php echo $data['kd_guru']; ?></td>
+                      <td rowspan="8"><img src="<?php echo $data['kd_guru'] ?>" class="img-rounded" height="300" width="225" style="border: 2px solid #666666;" /></td>
+                      </tr>
+                      <tr>
+                      <td width="250">Nama</td>
+                      <td width="700" colspan="1"><?php echo $data['nama_guru']; ?></td>
+                      </tr>
+                      <tr>
+                      <td>Alamat</td>
+                      <td><?php echo $data['alamat_guru']; ?></td>
+                      </tr>
+                      
+                      </table>
+                      <div class="text-right">
+                  <a href="member.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
+              
+                </div>
                   </div>
+                </div><!-- /.box-body -->
+                <!-- <div class="box-footer clearfix no-border">
+                  <a href="#" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Tambah Admin</a>
+                </div> -->
               </div><!-- /.box -->
 
             </section><!-- /.Left col -->
@@ -167,44 +150,40 @@ $_SESSION['start_time'] = time();
 
     <!-- jQuery 2.1.4 -->
     <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>
     <!-- Bootstrap 3.3.5 -->
     <script src="../bootstrap/js/bootstrap.min.js"></script>
-    <!-- DataTables -->
-    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
-    <!-- SlimScroll -->
+    <!-- Morris.js charts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="../plugins/morris/morris.min.js"></script>
+    <!-- Sparkline -->
+    <script src="../plugins/sparkline/jquery.sparkline.min.js"></script>
+    <!-- jvectormap -->
+    <script src="../plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="../plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="../plugins/knob/jquery.knob.js"></script>
+    <!-- daterangepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="../plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- datepicker -->
+    <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Slimscroll -->
     <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../dist/js/app.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="../dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
-	  <!--<script type="text/javascript"> 
-
-            $(function () {
-                $("#lookup").dataTable({"lengthMenu":[25,50,75,100],"pageLength":25});
-            });
-  
-   
-        </script>-->
- <script>
-        $(document).ready(function() {
-				var dataTable = $('#lookup').DataTable( {
-					"processing": true,
-					"serverSide": true,
-					"ajax":{
-						url :"ajax-grid-data.php", // json datasource
-						type: "post",  // method  , by default get
-						error: function(){  // error handling
-							$(".lookup-error").html("");
-							$("#lookup").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-							$("#lookup_processing").css("display","none");
-							
-						}
-					}
-				} );
-			} );
-        </script>
   </body>
 </html>
