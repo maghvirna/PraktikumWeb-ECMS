@@ -54,7 +54,7 @@ while( $row=mysqli_fetch_array($query) ) {  // preparing an array
 	$nestedData=array(); 
 
 	$nestedData[] = $row["kd_murid"];
-    $nestedData[] = $row["nama_murid"];
+        $nestedData[] = $row["nama_murid"];
 	$nestedData[] = $row["kelas"];
         $nestedData[] = $row["kategori_kelas"];
         $nestedData[] = $row["alamat_murid"];
@@ -62,6 +62,8 @@ while( $row=mysqli_fetch_array($query) ) {  // preparing an array
     $nestedData[] = '<td><center>
                      <a href="detail-murid.php?id='.$row['kd_murid'].'"  data-toggle="tooltip" title="View Detail" class="btn btn-sm btn-success"> <i class="glyphicon glyphicon-search"></i> </a>
                      <a href="edit-murid.php?id='.$row['kd_murid'].'"  data-toggle="tooltip" title="Edit" class="btn btn-sm btn-primary"> <i class="glyphicon glyphicon-edit"></i> </a>
+                  
+                         
                        <a href="murid.php?aksi=delete&id='.$row['kd_murid'].'"  data-toggle="tooltip" title="Delete" onclick="return confirm(\'Anda yakin akan menghapus data '.$row['nama_murid'].'?\')" class="btn btn-sm btn-danger"> <i class="glyphicon glyphicon-trash"> </i> </a>
 	                 </center></td>';		
 	

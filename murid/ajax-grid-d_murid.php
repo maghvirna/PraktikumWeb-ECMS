@@ -7,18 +7,17 @@ $requestData= $_REQUEST;
 
 $columns = array( 
 // datatable column index  => database column name
-	0 => 'p.nama_pelajaran',
-    1 => 'g.nama_guru', 
-	2 => 'j.jam_mulai',
-    3 => 'j.jam_selesai',
-	4 => 'r.nama_ruang',
+	0 => 'nama_pelajaran',
+    1 => 'nama_guru', 
+	2 => 'jam_mulai',
+    3 => 'jam_selesai',
+	4 => 'nama_ruang',
 
 );
 
 // getting total number records without any search
-$sql = "select p.nama_pelajaran, g.nama_guru, j.jam_mulai, j.jam_selesai, r.nama_ruang ";
-$sql.="  from pelajaran p inner join jadwal j on j.kd_guru = p.kd_guru inner join ruang r on r.kd_ruang = j.kd_ruang inner join guru g on g.kd_guru = j.kd_guru;
-";
+$sql = "select nama_pelajaran, nama_guru, jam_mulai, jam_selesai, nama_ruang, kategori_kelas ";
+$sql.="  from jadwal WHERE kategori_kelas ='SMP' ";
 $query=mysqli_query($conn, $sql) or die("ajax-grid-d_siswa.php: get d_siswa");
 $totalData = mysqli_num_rows($query);
 $totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
@@ -26,8 +25,9 @@ $totalFiltered = $totalData;  // when there is no search parameter then total nu
 
 if( !empty($requestData['search']['value']) ) {
 	// if there is a search parameter
-	$sql = "select p.nama_pelajaran, g.nama_guru, j.jam_mulai, j.jam_selesai, r.nama_ruang from pelajaran p inner join jadwal j on j.kd_guru = p.kd_guru inner join ruang r on r.kd_ruang = j.kd_ruang inner join guru g on g.kd_guru = j.kd_guru";
-	$sql.=" WHERE p.nama_pelajaran LIKE '".$requestData['search']['value']."%' ";    // $requestData['search']['value'] contains search parameter
+	$sql = "select nama_pelajaran, nama_guru, jam_mulai, jam_selesai, nama_ruang, kategori_kelas ";
+	$sql.="  from jadwal WHERE kategori_kelas ='SMP' ";
+	$sql.=" OR p.nama_pelajaran LIKE '".$requestData['search']['value']."%' ";    // $requestData['search']['value'] contains search parameter
 	$sql.=" OR g.nama_guru LIKE '".$requestData['search']['value']."%' ";
 	$sql.=" OR j.jam_mulai LIKE '".$requestData['search']['value']."%' ";
     $sql.=" OR j.jam_selesai LIKE '".$requestData['search']['value']."%' ";
@@ -42,9 +42,8 @@ if( !empty($requestData['search']['value']) ) {
 	
 } else {	
 
-	$sql = "select p.nama_pelajaran, g.nama_guru, j.jam_mulai, j.jam_selesai, r.nama_ruang ";
-$sql.="  from pelajaran p inner join jadwal j on j.kd_guru = p.kd_guru inner join ruang r on r.kd_ruang = j.kd_ruang inner join guru g on g.kd_guru = j.kd_guru;
-";
+	$sql = "select nama_pelajaran, nama_guru, jam_mulai, jam_selesai, nama_ruang, kategori_kelas ";
+	$sql.="  from jadwal WHERE kategori_kelas ='SMP' ";
 	$query=mysqli_query($conn, $sql) or die("ajax-grid-d_siswa.php: get d_siswa");   
 	
 }

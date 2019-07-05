@@ -144,21 +144,6 @@ $_SESSION['start_time'] = time();
                           </div>
                          
                           <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Privilege</label>
-                              <div class="col-sm-3">
-                            <select name="level" class="form-control" required>
-							<option value=""> -- Pilih Privilege -- </option>
-							<option value="admin">Admin</option>
-							<option value="superuser">Superuser</option>
-                            <option value="user">User</option>
-						    </select>
-                              </div>
-                              <label class="col-sm-3 col-sm-3 control-label">Privilege Sebelumnya : </label>
-                              <div class="col-sm-3">
-                              <span class="label label-primary"><?php echo $data['privilege'];  ?></span>
-                              </div>
-                          </div>
-                          <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Gambar</label>
                               <div class="col-sm-10">
                                   <img src="<?php echo $data['gambar_user'];?>" width="200" height="250" class="img-rounded" style="border: 3px solid #888;"/>

@@ -75,7 +75,7 @@ if (empty($_SESSION['username'])) {
                         <small>ECMS</small>
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                        <li><a href="../member/d_member.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                         <li class="active">Staff</li>
                     </ol>
                 </section>
@@ -198,8 +198,8 @@ if (empty($_SESSION['username'])) {
                                         if ($jenis_gambar == "image/jpeg" || $jenis_gambar == "image/jpg" || $jenis_gambar == "image/gif" || $jenis_gambar == "image/x-png") {
                                             $gambar = $namafolder . basename($_FILES['nama_file']['name']);
                                             if (move_uploaded_file($_FILES['nama_file']['tmp_name'], $gambar)) {
-                                                $sql2 = "INSERT INTO user(user_id, username, password, fullname, privilege, gambar_user) VALUES ('$user_id','$kds','$password','$nama_staff','superuser','$gambar')";
-                                                $sql1 = "INSERT INTO staff(kd_staff, user_id, nama_staff, no_hp, alamat_staff, gambar) VALUES ('$kds', (select user_id from user where username='$kds') ,'$nama_staff','$no_hp','$alamat_staff','$gambar')";
+                                                $sql2 = "REPLACE INTO user(user_id, username, password, fullname, privilege, gambar_user) VALUES ('$user_id','$kds','$password','$nama_staff','superuser','$gambar')";
+                                                $sql1 = "REPLACE INTO staff(kd_staff, user_id, nama_staff, no_hp, alamat_staff, gambar) VALUES ('$kds', (select user_id from user where username='$kds') ,'$nama_staff','$no_hp','$alamat_staff','$gambar')";
 
                                                 $res2 = mysqli_query($koneksi, $sql2);
                                                 $res = mysqli_query($koneksi, $sql1);

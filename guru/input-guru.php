@@ -135,23 +135,23 @@ if (empty($_SESSION['username'])) {
 
                                     $kd_guru = "G0" . $tambah;
                                 }
-								
-								$query = "SELECT max(user_id) as usridm FROM user";
-$hasil = mysqli_query($koneksi,$query);
-$data = mysqli_fetch_array($hasil);
-$user_id = $data['usridm'];
-$noUrut = (int) substr($user_id, 3, 3);
-$noUrut++;
-$char = "ID";
-$user_id = $char . sprintf("%03s", $noUrut);
+
+                                $query = "SELECT max(user_id) as usridm FROM user";
+                                $hasil = mysqli_query($koneksi, $query);
+                                $data = mysqli_fetch_array($hasil);
+                                $user_id = $data['usridm'];
+                                $noUrut = (int) substr($user_id, 3, 3);
+                                $noUrut++;
+                                $char = "ID";
+                                $user_id = $char . sprintf("%03s", $noUrut);
 
                                 if (mysqli_num_rows($sql) == 0) {
                                     header("Location: ../guru/guru.php");
                                 } else {
                                     $row = mysqli_fetch_assoc($sql);
                                 }
-                                
-                                
+
+
 
 
                                 if (isset($_POST['input'])) {
@@ -201,13 +201,13 @@ $user_id = $char . sprintf("%03s", $noUrut);
                                         if ($jenis_gambar == "image/jpeg" || $jenis_gambar == "image/jpg" || $jenis_gambar == "image/gif" || $jenis_gambar == "image/png") {
                                             $gambar = $namafolder . basename($_FILES['nama_file']['name']);
                                             if (move_uploaded_file($_FILES['nama_file']['tmp_name'], $gambar)) {
-												$query2 = "INSERT INTO user(user_id, username, password, fullname, privilege, gambar_user) VALUES ('$user_id','$kdg','$password','$nama_guru','admin','$gambar')";
+                                                $query2 = "INSERT INTO user(user_id, username, password, fullname, privilege, gambar_user) VALUES ('$user_id','$kdg','$password','$nama_guru','admin','$gambar')";
                                                 $query1 = "INSERT INTO guru(kd_guru, user_id, nama_guru, alamat_guru, no_hp, gambar) VALUES ('$kdg', (select user_id from user where username='$kdg') ,'$nama_guru','$alamat_guru','$no_hp','$gambar')";
-                                                
 
-												$res2 = mysqli_query($koneksi, $query2);
+
+                                                $res2 = mysqli_query($koneksi, $query2);
                                                 $res = mysqli_query($koneksi, $query1);
-                                                
+
 
                                                 //echo "Gambar berhasil dikirim ke direktori".$gambar;
                                                 echo "<script>alert('Data Guru berhasil disimpan !'); window.location = 'guru.php'</script>";
@@ -255,7 +255,7 @@ $user_id = $char . sprintf("%03s", $noUrut);
                                         <div class="form-group">
                                             <label class="col-sm-2 col-sm-2 control-label">No HP</label>
                                             <div class="col-sm-4">
-                                                <input name="no_hp" type="text" id="no_hp" class="form-control" placeholder="Masukkan Nomor " autocomplete="off" required />
+                                                <input name="no_hp" type="text" id="no_hp" class="form-control" maxlength="12" minlength="12" placeholder="Masukkan Nomor " autocomplete="off" required />
 
                                             </div>
                                         </div>

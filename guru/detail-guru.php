@@ -124,7 +124,7 @@ if (empty($_SESSION['username'])) {
                                 <?php
                                 if ($_SESSION['privilege'] == "admin") {
 
-                                    $qu = mysqli_query($koneksi, "select g.kd_guru, u.user_id, u.username, u.fullname, u.privilege, g.nama_guru, g.alamat_guru, g.no_hp, g.gambar from guru g inner join user u on u.user_id = g.user_id where username='" . $_SESSION['username'] . "'");
+                                    $qu = mysqli_query($koneksi, "select g.kd_guru, u.user_id, u.username, pel.nama_pelajaran ,u.privilege, g.nama_guru, g.alamat_guru, g.no_hp, g.gambar from guru g inner join pelajaran pel on g.kd_guru = pel.kd_guru  inner join user u on u.user_id = g.user_id where username='" . $_SESSION['username'] . "'");
                                     $row_akun = mysqli_fetch_array($qu);
 
                                     if (mysqli_num_rows($qu) > 0) {
@@ -134,6 +134,7 @@ if (empty($_SESSION['username'])) {
                                         $_SESSION['username'];
                                         $_SESSION['privilege'] = $row_akun['privilege'];
                                         $_SESSION['nama_guru'] = $row_akun['nama_guru'];
+					                   $_SESSION['nama_pelajaran'] = $row_akun['nama_pelajaran'];
                                         $_SESSION['alamat_guru'] = $row_akun['alamat_guru'];
                                         $_SESSION['no_hp'] = $row_akun['no_hp'];
                                         $_SESSION['gambar'] = $row_akun['gambar'];
@@ -157,6 +158,10 @@ if (empty($_SESSION['username'])) {
                                                     <td width="250">Nama Lengkap</td>
                                                     <td width="700" colspan="1"><?php echo $_SESSION['nama_guru']; ?></td>
                                                 </tr>
+						<tr>
+                                                    <td>Nama Pelajaran</td></td>
+                                                    <td><?php echo $_SESSION['nama_pelajaran']; ?></td>
+                                                </tr>
                                                 <tr>
                                                     <td>Alamat</td></td>
                                                     <td><?php echo $_SESSION['alamat_guru']; ?></td>
@@ -177,8 +182,8 @@ if (empty($_SESSION['username'])) {
 
                                     <?php
                                 } else {
-
-                                    $query = mysqli_query($koneksi, "SELECT * FROM guru WHERE kd_guru='$_GET[id]'");
+                                    $kdg = $_GET['id'];   
+                                    $query = mysqli_query($koneksi, "SELECT kd_guru, nama_guru, alamat_guru, no_hp, gambar FROM guru WHERE kd_guru='$kdg'");
                                     $data = mysqli_fetch_array($query);
                                     ?>
                                     <div class="box-body">
@@ -198,6 +203,7 @@ if (empty($_SESSION['username'])) {
                                                     <td>Nama Lengkap</td>
                                                     <td><?php echo $data['nama_guru']; ?></td>
                                                 </tr>
+                                                
                                                 <tr>
                                                     <td>Alamat</td></td>
                                                     <td><?php echo $data['alamat_guru']; ?></td>

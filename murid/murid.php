@@ -130,7 +130,7 @@ $_SESSION['start_time'] = time();
       <tr>
 	  
         <th>Kode</th>
-        <th>Nama</th>
+        <th>Nama Lengkap</th>
         <th>Kelas</th> 
         <th>Kategori Kelas</th>
         <th>Alamat</th>

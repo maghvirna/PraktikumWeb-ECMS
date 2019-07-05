@@ -1,6 +1,23 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
+        <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+             <script>
+  // Function ini dijalankan ketika Halaman ini dibuka pada browser
+  $(function(){
+     setInterval(timestamp, 1000);//fungsi yang dijalan setiap detik, 1000 = 1 detik
+   });
+
+    //Fungi ajax untuk Menampilkan Jam dengan mengakses File ajax_timestamp.php
+    function timestamp() {
+     $.ajax({
+       url: '../ajax_timestamp.php',
+       success: function(data) {
+         $('#timestampss').html(data);
+       },
+     });
+   }
+ </script>
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
@@ -24,14 +41,15 @@
             </div>
             <div class="pull-left info">
                 <p><?php echo $_SESSION['fullname']; ?></p>
-                <a href="../admin/index.php"><i class="fa fa-circle text-success"></i> Online</a>
+                <a><i class="fa fa-circle text-success"></i> Online</a>
+                <h5 id="timestampss"></h5>
             </div>
         </div><br />
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="header">MENU UTAMA</li>
             <li class="active treeview">
-                <a href="d_guru.php">
+                <a href="../guru/d_guru.php">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
@@ -41,8 +59,8 @@
                     <i class="fa fa-user"></i> <span>Profil</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="detail-guru.php"><i class="fa fa-circle-o"></i>View Profil</a></li>
-                    <li><a href="edit-guru.php"><i class="fa fa-circle-o"></i> Edit Profil</a></li>
+                    <li><a href="../guru/detail-guru.php"><i class="fa fa-circle-o"></i>View Profil</a></li>
+                    <li><a href="../guru/edit-guru.php"><i class="fa fa-circle-o"></i> Edit Profil</a></li>
 
                 </ul>
             </li>

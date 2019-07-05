@@ -82,17 +82,26 @@ if (empty($_SESSION['username'])) {
                         <small>ECMS</small>
                     </h1>
 
-                    <?php
-                    if ($_SESSION['privilege'] == "user") {
-                        ?> <ol class="breadcrumb">
-                            <li><a href="d_murid.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                            <li class="active">Murid</li>
+                   <?php
+                    if ($_SESSION['privilege'] == "user_smp") {
+                        ?> 
+                        <ol class="breadcrumb">
+                            <li><a href="d_murid_smp.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                            <li class="active">Detail Murid</li>
+                        </ol>   
+                    <?php }
+                    elseif ($_SESSION['privilege'] == "user_smp") {
+                        ?> 
+                        <ol class="breadcrumb">
+                            <li><a href="d_murid_smp.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                            <li class="active">Detail Murid</li>
                         </ol>    
-                    <?php } else {
+                    <?php } 
+                    else {
                         ?>
                         <ol class="breadcrumb">
                             <li><a href="murid.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                            <li class="active">Murid</li>
+                            <li class="active">Detail Murid</li>
                         </ol>    
                         <?php
                     }
@@ -124,11 +133,11 @@ if (empty($_SESSION['username'])) {
                                     </div> 
                                 </div><!-- /.box-header -->
                                 <?php
-                                if ($_SESSION['privilege'] == "user") {
+                                if ($_SESSION['privilege'] == "user_smp") {
 
-                                    $sql = mysqli_query($koneksi, "select m.kd_murid, u.user_id, u.username, m.nama_murid, m.kelas, m.kategori_kelas, m.alamat_murid, m.no_hp, m.gambar from murid m inner join user u on u.user_id = m.user_id where username='" . $_SESSION['username'] . "'");
+                                    $sql = mysqli_query($koneksi, "select m.kd_murid, u.user_id, u.username, u.password, m.nama_murid, m.kelas, m.kategori_kelas, m.alamat_murid, m.no_hp, m.gambar from murid m inner join user u on u.user_id = m.user_id where u.username='" . $_SESSION['username'] . "'");
                                     if (mysqli_num_rows($sql) == 0) {
-                                        header("Location: ../murid/d_murid.php");
+                                        header("Location: ../murid/d_murid_smp.php");
                                     } else {
                                         $row = mysqli_fetch_assoc($sql);
                                     }
@@ -138,6 +147,7 @@ if (empty($_SESSION['username'])) {
 //{
                                         $jenis_gambar = $_FILES['nama_file']['type'];
                                         $kd_murid = $_POST['kd_murid'];
+
                                         $nama_murid = $_POST['nama_murid'];
                                         $kelas = $_POST['kelas'];
                                         $kategori_kelas = $_POST['kategori_kelas'];
@@ -149,43 +159,137 @@ if (empty($_SESSION['username'])) {
                                         $gambar = $namafolder . basename($_FILES['nama_file']['name']);
                                         if (move_uploaded_file($_FILES['nama_file']['tmp_name'], $gambar)) {
                                             $sql = "UPDATE murid SET nama_murid='$nama_murid', kelas='$kelas', kategori_kelas='$kategori_kelas', alamat_murid='$alamat_murid',  no_hp='$no_hp', gambar='$gambar' WHERE kd_murid='$kd_murid'";
+
                                             $res = mysqli_query($koneksi, $sql) or die(mysqli_error());
+
                                             //echo "Gambar berhasil dikirim ke direktori".$gambar;
                                             echo "<script>alert('Data Murid berhasil diupdate !'); window.location = 'detail-murid.php'</script>";
                                         }
                                         else
                                             $sql = "UPDATE murid SET nama_murid='$nama_murid', kelas='$kelas', kategori_kelas='$kategori_kelas', alamat_murid='$alamat_murid',  no_hp='$no_hp' WHERE kd_murid='$kd_murid'";
-                                            $res = mysqli_query($koneksi, $sql) or die(mysqli_error());
-                                            //echo "Gambar berhasil dikirim ke direktori".$gambar;
-                                            echo "<script>alert('Data Murid berhasil diupdate !'); window.location = 'detail-murid.php'</script>";
+
+                                        $res = mysqli_query($koneksi, $sql) or die(mysqli_error());
+
+                                        //echo "Gambar berhasil dikirim ke direktori".$gambar;
+                                        echo "<script>alert('Data Murid berhasil diupdate !'); window.location = 'detail-murid.php'</script>";
                                     }
-                                    // } else {
-//		echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Jenis gambar yang anda kirim salah. Harus .jpg .gif .png</div>';
-                                    // }
-//} else {
-//	echo '<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Anda Belum Memilih Gambar</div>';
-//}
-                                    //if(isset($_GET['pesan']) == 'sukses'){
-                                    //	echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Data berhasil disimpan.</div>';
-                                    //}
+                                    
                                     ?>
                                     <div class="box-body">
                                         <form class="form-horizontal style-form" action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
                                             <div class="form-group">
                                                 <label class="col-sm-2 col-sm-2 control-label">Kode Murid</label>
                                                 <div class="col-sm-4">
-                                                    <input name="kd_murid" type="text" id="nik" class="form-control" value="<?php
-                                                    echo $row["kd_murid"];
-                                                    ;
-                                                    ?>" placeholder="Auto Number" readonly="readonly" autofocus="on" />
+                                                    <input name="kd_murid" type="text" id="nik" class="form-control" value="<?php echo $row["kd_murid"]; ?>" placeholder="Auto Number" readonly="readonly" autofocus="on" />
                                                 </div>
                                             </div>
-													
-											<div class="form-group">
-                                                <label class="col-sm-2 col-sm-2 control-label">Username</label>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-sm-2 control-label">Nama Lengkap</label>
                                                 <div class="col-sm-4">
-                                                    <input name="nama_guru" type="text" id="nama" class="form-control" value="<?php echo $_SESSION['username'];; ?>" readonly="readonly" autofocus="on" />
+                                                    <input name="nama_murid" type="text" id="nama" class="form-control" value="<?php echo $row['nama_murid']; ?>" placeholder="Nama Murid" autocomplete="off" required />
 
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-sm-2 control-label">Kelas</label>
+                                                <div class="col-sm-4">
+                                                    <input name="kelas" type="Number" id="kelas" class="form-control" maxlength="1" min="1" max="6" value="<?php echo $row['kelas']; ?>" placeholder="Kelas" autocomplete="off" required />
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-sm-2 control-label">Kategori Kelas</label>
+                                                <div class="col-sm-4">
+                                                    <input name="kategori_kelas" type="text" id="kategori_kelas" class="form-control" value="<?php echo $row['kategori_kelas']; ?>" placeholder="Kategori Kelas" readonly="readonly" autofocus="on" />
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-sm-2 control-label">Alamat</label>
+                                                <div class="col-sm-4">
+                                                    <input name="alamat_murid" type="text" id="alamat_murid" class="form-control" value="<?php echo $row['alamat_murid']; ?>" placeholder="alamat" autocomplete="off" required />
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-sm-2 control-label">No HP</label>
+                                                <div class="col-sm-4">
+                                                    <input name="no_hp" type="text" id="no_hp" maxlength="12" minlength="12" class="form-control" value="<?php echo $row['no_hp']; ?>" placeholder="Nomor HP" autocomplete="off" required />
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-sm-2 control-label">Foto</label>
+                                                <div class="col-sm-4">
+
+                                                    <input name="nama_file" type="file" id="nama_file" class="form-control" placeholder="Pilih Gambar Produk" autocomplete="on" />
+
+                                                </div>
+                                                <label class="col-sm-3 col-sm-3 control-label">Foto Sebelumnya : </label>
+                                                <div class="col-sm-3">
+                                                    <img src="<?php echo $row['gambar']; ?>" class="img-circle" height="80" width="80" style="border: 2px solid #666666;" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-sm-2 control-label"></label>
+                                                <div class="col-sm-10">
+                                                    <input type="submit" name="update" value="Simpan" class="btn btn-sm btn-primary" />&nbsp;
+                                                    <a href="d_murid_smp.php" class="btn btn-sm btn-danger">Batal </a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div><!-- /.box-body -->
+                                    <?php
+                                }   
+                                if ($_SESSION['privilege'] == "user_sd") {
+
+                                    $sql = mysqli_query($koneksi, "select m.kd_murid, u.user_id, u.username, u.password, m.nama_murid, m.kelas, m.kategori_kelas, m.alamat_murid, m.no_hp, m.gambar from murid m inner join user u on u.user_id = m.user_id where u.username='" . $_SESSION['username'] . "'");
+                                    if (mysqli_num_rows($sql) == 0) {
+                                        header("Location: ../murid/d_murid_sd.php");
+                                    } else {
+                                        $row = mysqli_fetch_assoc($sql);
+                                    }
+                                    if (isset($_POST['update'])) {
+                                        $namafolder = "../murid/foto_murid/"; //tempat menyimpan file
+//if (!empty($_FILES["nama_file"]["tmp_name"]))
+//{
+                                        $jenis_gambar = $_FILES['nama_file']['type'];
+                                        $kd_murid = $_POST['kd_murid'];
+
+                                        $nama_murid = $_POST['nama_murid'];
+                                        $kelas = $_POST['kelas'];
+                                        $kategori_kelas = $_POST['kategori_kelas'];
+                                        $alamat_murid = $_POST['alamat_murid'];
+                                        $no_hp = $_POST['no_hp'];
+
+                                        //if($jenis_gambar=="image/jpeg" || $jenis_gambar=="image/jpg" || $jenis_gambar=="image/JPG" || $jenis_gambar=="image/gif" || $jenis_gambar=="image/x-png")
+                                        //{         
+                                        $gambar = $namafolder . basename($_FILES['nama_file']['name']);
+                                        if (move_uploaded_file($_FILES['nama_file']['tmp_name'], $gambar)) {
+                                            $sql = "UPDATE murid SET nama_murid='$nama_murid', kelas='$kelas', kategori_kelas='$kategori_kelas', alamat_murid='$alamat_murid',  no_hp='$no_hp', gambar='$gambar' WHERE kd_murid='$kd_murid'";
+
+                                            $res = mysqli_query($koneksi, $sql) or die(mysqli_error());
+
+                                            //echo "Gambar berhasil dikirim ke direktori".$gambar;
+                                            echo "<script>alert('Data Murid berhasil diupdate !'); window.location = 'detail-murid.php'</script>";
+                                        }
+                                        else
+                                            $sql = "UPDATE murid SET nama_murid='$nama_murid', kelas='$kelas', kategori_kelas='$kategori_kelas', alamat_murid='$alamat_murid',  no_hp='$no_hp' WHERE kd_murid='$kd_murid'";
+
+                                        $res = mysqli_query($koneksi, $sql) or die(mysqli_error());
+
+                                        //echo "Gambar berhasil dikirim ke direktori".$gambar;
+                                        echo "<script>alert('Data Murid berhasil diupdate !'); window.location = 'detail-murid.php'</script>";
+                                    }
+                                    
+                                    ?>
+                                    <div class="box-body">
+                                        <form class="form-horizontal style-form" action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-sm-2 control-label">Kode Murid</label>
+                                                <div class="col-sm-4">
+                                                    <input name="kd_murid" type="text" id="nik" class="form-control" value="<?php echo $row["kd_murid"]; ?>" placeholder="Auto Number" readonly="readonly" autofocus="on" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -227,7 +331,7 @@ if (empty($_SESSION['username'])) {
                                             <div class="form-group">
                                                 <label class="col-sm-2 col-sm-2 control-label">Foto</label>
                                                 <div class="col-sm-4">
-												
+
                                                     <input name="nama_file" type="file" id="nama_file" class="form-control" placeholder="Pilih Gambar Produk" autocomplete="on" />
 
                                                 </div>
@@ -240,7 +344,7 @@ if (empty($_SESSION['username'])) {
                                                 <label class="col-sm-2 col-sm-2 control-label"></label>
                                                 <div class="col-sm-10">
                                                     <input type="submit" name="update" value="Simpan" class="btn btn-sm btn-primary" />&nbsp;
-                                                    <a href="d_murid.php" class="btn btn-sm btn-danger">Batal </a>
+                                                    <a href="d_murid_sd.php" class="btn btn-sm btn-danger">Batal </a>
                                                 </div>
                                             </div>
                                         </form>
@@ -250,7 +354,7 @@ if (empty($_SESSION['username'])) {
                                 } else {
 
                                     $kdm = $_GET['id'];
-                                    $sql = mysqli_query($koneksi, "SELECT * FROM murid WHERE kd_murid='$kdm'");
+                                    $sql = mysqli_query($koneksi, "select m.kd_murid, u.user_id, u.username, u.password, m.nama_murid, m.kelas, m.kategori_kelas, m.alamat_murid, m.no_hp, m.gambar from murid m inner join user u on u.user_id = m.user_id where kd_murid='$kdm'");
                                     if (mysqli_num_rows($sql) == 0) {
                                         header("Location: ../murid/murid.php");
                                     } else {
@@ -263,27 +367,30 @@ if (empty($_SESSION['username'])) {
 //{
                                         $jenis_gambar = $_FILES['nama_file']['type'];
                                         $kd_murid = $_POST['kd_murid'];
-                                        $user_id = $_POST['user_id'];
+                                        $password = $_POST['password'];
                                         $nama_murid = $_POST['nama_murid'];
                                         $kelas = $_POST['kelas'];
                                         $kategori_kelas = $_POST['kategori_kelas'];
                                         $alamat_murid = $_POST['alamat_murid'];
                                         $no_hp = $_POST['no_hp'];
 
-                                        //if($jenis_gambar=="image/jpeg" || $jenis_gambar=="image/jpg" || $jenis_gambar=="image/JPG" || $jenis_gambar=="image/gif" || $jenis_gambar=="image/x-png")
-                                        //{			
+
                                         $gambar = $namafolder . basename($_FILES['nama_file']['name']);
                                         if (move_uploaded_file($_FILES['nama_file']['tmp_name'], $gambar)) {
-                                            $sql = "UPDATE murid SET nama_murid='$nama_murid', kelas='$kelas', kategori_kelas='$kategori_kelas', alamat_murid='$alamat_murid',  no_hp='$no_hp', gambar='$gambar' WHERE kd_murid='$kdm'";
+                                            $sql = "UPDATE murid SET nama_murid='$nama_murid', kelas='$kelas', kategori_kelas='$kategori_kelas', alamat_murid='$alamat_murid',  no_hp='$no_hp', gambar='$gambar' WHERE kd_murid='$kd_murid'";
+                                            $sql1 = "UPDATE user SET password='$password' where username='$kd_murid'";
                                             $res = mysqli_query($koneksi, $sql) or die(mysqli_error());
+                                            $res1 = mysqli_query($koneksi, $sql1) or die(mysqli_error());
                                             //echo "Gambar berhasil dikirim ke direktori".$gambar;
                                             echo "<script>alert('Data Murid berhasil diupdate !'); window.location = 'murid.php'</script>";
                                         }
                                         else
                                             $sql = "UPDATE murid SET nama_murid='$nama_murid', kelas='$kelas', kategori_kelas='$kategori_kelas', alamat_murid='$alamat_murid',  no_hp='$no_hp' WHERE kd_murid='$kd_murid'";
-                                            $res = mysqli_query($koneksi, $sql) or die(mysqli_error());
-                                            //echo "Gambar berhasil dikirim ke direktori".$gambar;
-                                            echo "<script>alert('Data Murid berhasil diupdate !'); window.location = 'detail-murid.php'</script>";
+                                        $sql1 = "UPDATE user SET password='$password' where username='$kd_murid'";
+                                        $res = mysqli_query($koneksi, $sql) or die(mysqli_error());
+                                        $res1 = mysqli_query($koneksi, $sql1) or die(mysqli_error());
+                                        //echo "Gambar berhasil dikirim ke direktori".$gambar;
+                                        echo "<script>alert('Data Murid berhasil diupdate !'); window.location = 'murid.php'</script>";
                                     }
                                     // } else {
 //		echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Jenis gambar yang anda kirim salah. Harus .jpg .gif .png</div>';
@@ -303,15 +410,18 @@ if (empty($_SESSION['username'])) {
                                                     <input name="kd_murid" type="text" id="nik" class="form-control" value="<?php echo $row["kd_murid"]; ?>" placeholder="Auto Number" readonly="readonly" autofocus="on" />
                                                 </div>
                                             </div>
-											
-											<div class="form-group">
+                                            <div class="form-group">
                                                 <label class="col-sm-2 col-sm-2 control-label">Username</label>
                                                 <div class="col-sm-4">
-                                                    <input name="nama_guru" type="text" id="nama" class="form-control" value="<?php echo $row["kd_murid"]; ?>" readonly="readonly" autofocus="on" />
-
+                                                    <input name="kd_murid" type="text" id="nik" class="form-control" value="<?php echo $row["kd_murid"]; ?>" placeholder="Auto Number" readonly="readonly" autofocus="on" />
                                                 </div>
                                             </div>
-											
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-sm-2 control-label">Password</label>
+                                                <div class="col-sm-4">
+                                                    <input name="password" type="text" id="Password" class="form-control" value="<?php echo $row["password"]; ?>" placeholder="Auto Number" autocomplete="off" required />
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 col-sm-2 control-label">Nama Lengkap</label>
                                                 <div class="col-sm-4">
@@ -329,18 +439,20 @@ if (empty($_SESSION['username'])) {
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 col-sm-2 control-label">Kategori Kelas</label>
-                                                                                                 
-												 <div class="col-sm-4">
-                                                <select name="kategori_kelas" class="form-control" value="<?php echo $row['kategori_kelas']; ?>" required>
-							<option value=""> <?php echo $row['kategori_kelas']; ?> </option>
-							<option value="SD">SD</option>
-							<option value="SMP">SMP</option>
-                                                           <option value="SMA / SMK">SMA / SMK</option>
-						    </select>
 
-                                                </div>
+                                                <div class="col-sm-4">     
+
+                                                    <input name="kategori_kelas" type="text" id="kategori_kelas" class="form-control" value="<?php echo $row['kategori_kelas']; ?>" placeholder="Kategori kelas" autocomplete="on"  />
+
+                                                    <select name="kategori_kelas" class="form-control" >
+                                                        <option value="<?php echo $row['kategori_kelas']; ?>"> -- Pilih Kategori Kelas Baru--</option>
+                                                        <option value="SD">SD</option>
+                                                        <option value="SMP">SMP</option>
+                                                        <option value="SMA / SMK">SMA / SMK</option>
+                                                    </select>
+                                                </div>	
                                             </div>
-										
+
                                             <div class="form-group">
                                                 <label class="col-sm-2 col-sm-2 control-label">Alamat</label>
                                                 <div class="col-sm-4">
@@ -369,7 +481,7 @@ if (empty($_SESSION['username'])) {
                                             <div class="form-group">
                                                 <label class="col-sm-2 col-sm-2 control-label"></label>
                                                 <div class="col-sm-10">
-                                                    <input type="submit" name="update" value="Simpan" class="btn btn-sm btn-primary" />&nbsp;
+                                                    <input type="submit" name="update" value="Simpan" class="btn btn-sm btn-primary">&nbsp;
                                                     <a href="murid.php" class="btn btn-sm btn-danger">Batal </a>
                                                 </div>
                                             </div>
@@ -388,7 +500,7 @@ if (empty($_SESSION['username'])) {
             </div><!-- /.content-wrapper -->
             <?php include "../footer.php"; ?>
 
-<?php include "../sidecontrol.php"; ?>
+            <?php include "../sidecontrol.php"; ?>
             <!-- Add the sidebar's background. This div must be placed
                  immediately after the control sidebar -->
             <div class="control-sidebar-bg"></div>

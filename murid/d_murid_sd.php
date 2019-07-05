@@ -4,9 +4,7 @@ if (empty($_SESSION['username'])){
 	header('location:../admin/index.php');	
 } else {
 	include "../conn.php";
-	
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -47,17 +45,33 @@ if (empty($_SESSION['username'])){
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+             <script>
+  // Function ini dijalankan ketika Halaman ini dibuka pada browser
+  $(function(){
+     setInterval(timestamp, 1000);//fungsi yang dijalan setiap detik, 1000 = 1 detik
+   });
+
+    //Fungi ajax untuk Menampilkan Jam dengan mengakses File ajax_timestamp.php
+    function timestamp() {
+     $.ajax({
+       url: '../ajax_timestamp.php',
+       success: function(data) {
+         $('#timestamp').html(data);
+       },
+     });
+   }
+ </script>
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       <?php include "../header.php"; ?>
       <!-- Left side column. contains the logo and sidebar -->
-		<?php include "../guru/menu_guru.php"; ?>
-	  
-	
-	<?php
-	
+      <?php include "menu_murid.php"; ?>
+
+<?php
 $timeout = 10; // Set timeout minutes
 $logout_redirect_url = "../index.php"; // Set logout URL
 
@@ -77,11 +91,12 @@ $_SESSION['start_time'] = time();
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            <b>Jadwal Pembelajaran</b>
+            <b>Jadwal Pembelajaran Mingguan</b>
+            <b id="timestamp"></b>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="d_guru.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active">Guru</li>
+            <li><a href="d_murid_sd.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Murid</li>
           </ol>
         </section>
 
@@ -109,14 +124,14 @@ $_SESSION['start_time'] = time();
       <tr>
 	  
         
-         <th>Nama Lengkap</th>
-		<th>Nama Pelajaran</th> 
-    <th>Hari</th>
-    <th>Tanggal</th>
+        <th>Nama Pelajaran</th> 
+        <th>Nama Guru</th>
+        <th>Kategori Kelas</th>
+        <th>Hari</th>
+        <th>Tanggal</th>
 		<th>Jam Mulai</th>
         <th>Jam Selesai</th>
 		<th>Ruang</th>
-		
 	  
       </tr>
     </thead>
@@ -174,7 +189,7 @@ $_SESSION['start_time'] = time();
 					"processing": true,
 					"serverSide": true,
 					"ajax":{
-						url :"ajax-grid-d_guru.php", // json datasource
+						url :"ajax_grid_d_murid_sd.php", // json datasource
 						type: "post",  // method  , by default get
 						error: function(){  // error handling
 							$(".lookup-error").html("");

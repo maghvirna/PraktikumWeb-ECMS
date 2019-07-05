@@ -8,38 +8,38 @@ if (empty($_SESSION['username'])) {
 
     <!DOCTYPE html>
     <html>
-        <head>
-            <meta charset="utf-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <title>ECMS (Education Course Management System)</title>
-            <!-- Tell the browser to be responsive to screen width -->
-            <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-            <!-- Bootstrap 3.3.5 -->
-            <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-            <!-- Font Awesome -->
-            <link rel="stylesheet" href="../css/font-awesome.min.css">
-            <!-- Ionicons -->
-            <link rel="stylesheet" href="../css/ionicons.min.css">
-            <!-- Theme style -->
-            <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ECMS (Education Course Management System)</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="../css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="../css/ionicons.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
             <!-- AdminLTE Skins. Choose a skin from the css/skins
-                 folder instead of downloading all of them to reduce the load. -->
-            <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
-            <!-- iCheck -->
-            <link rel="stylesheet" href="../plugins/iCheck/flat/blue.css">
-            <!-- Morris chart -->
-            <link rel="stylesheet" href="../plugins/morris/morris.css">
-            <!-- jvectormap -->
-            <link rel="stylesheet" href="../plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-            <!-- Date Picker -->
-            <link rel="stylesheet" href="../plugins/datepicker/datepicker3.css">
-            <!-- Daterange picker -->
-            <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
-            <!-- bootstrap wysihtml5 - text editor -->
-            <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+               folder instead of downloading all of them to reduce the load. -->
+               <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+               <!-- iCheck -->
+               <link rel="stylesheet" href="../plugins/iCheck/flat/blue.css">
+               <!-- Morris chart -->
+               <link rel="stylesheet" href="../plugins/morris/morris.css">
+               <!-- jvectormap -->
+               <link rel="stylesheet" href="../plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+               <!-- Date Picker -->
+               <link rel="stylesheet" href="../plugins/datepicker/datepicker3.css">
+               <!-- Daterange picker -->
+               <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
+               <!-- bootstrap wysihtml5 - text editor -->
+               <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+               <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+               <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
             <!--[if lt IE 9]>
                 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
                 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -83,12 +83,21 @@ if (empty($_SESSION['username'])) {
                         <small>ECMS</small>
                     </h1>
                     <?php
-                    if ($_SESSION['privilege'] == "user") {
-                        ?> <ol class="breadcrumb">
-                            <li><a href="d_murid.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    if ($_SESSION['privilege'] == "user_smp") {
+                        ?> 
+                        <ol class="breadcrumb">
+                            <li><a href="d_murid_smp.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                            <li class="active">Detail Murid</li>
+                        </ol>   
+                    <?php }
+                    elseif ($_SESSION['privilege'] == "user_smp") {
+                        ?> 
+                        <ol class="breadcrumb">
+                            <li><a href="d_murid_smp.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                             <li class="active">Detail Murid</li>
                         </ol>    
-                    <?php } else {
+                    <?php } 
+                    else {
                         ?>
                         <ol class="breadcrumb">
                             <li><a href="murid.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -119,158 +128,217 @@ if (empty($_SESSION['username'])) {
                                         <li><a href="#">3</a></li>
                                         <li><a href="#">&raquo;</a></li>
                                       </ul>
-                                    </div> -->
-                                </div><!-- /.box-header -->
-                                <?php
-                                if ($_SESSION['privilege'] == "user") {
+                                  </div> -->
+                              </div><!-- /.box-header -->
+                              <?php
+                              if ($_SESSION['privilege'] == "user_smp") {
 
-                                    $qu = mysqli_query($koneksi, "select m.kd_murid, u.user_id, u.username, u.fullname, m.kelas, m.kategori_kelas, m.nama_murid, m.alamat_murid, m.no_hp, m.gambar from murid m inner join user u on u.user_id = m.user_id where username='" . $_SESSION['username'] . "'");
-                                    $row_akun = mysqli_fetch_array($qu);
-
-                                    if (mysqli_num_rows($qu) > 0) {
+                                $qu = mysqli_query($koneksi, "select m.kd_murid, u.user_id, u.username, u.fullname, m.kelas, m.kategori_kelas, m.nama_murid, m.alamat_murid, m.no_hp, m.gambar from murid m inner join user u on u.user_id = m.user_id where username='" . $_SESSION['username'] . "'");
+                                $row_akun = mysqli_fetch_array($qu);
 
 
-                                        $_SESSION['kd_murid'] = $row_akun['kd_murid'];
-                                        $_SESSION['user_id'] = $row_akun['user_id'];
-                                        $_SESSION['username'];
-                                        $_SESSION['nama_murid'] = $row_akun['nama_murid'];
-                                        $_SESSION['kelas'] = $row_akun['kelas'];
-                                        $_SESSION['kategori_kelas'] = $row_akun['kategori_kelas'];
-                                        $_SESSION['alamat_murid'] = $row_akun['alamat_murid'];
-                                        $_SESSION['no_hp'] = $row_akun['no_hp'];
-                                        $_SESSION['gambar'] = $row_akun['gambar'];
+
+                                if (mysqli_num_rows($qu) > 0) {
+
+
+                                    $_SESSION['kd_murid'] = $row_akun['kd_murid'];
+                                    $_SESSION['user_id'] = $row_akun['user_id'];
+                                    $_SESSION['username'];
+                                    $_SESSION['nama_murid'] = $row_akun['nama_murid'];
+                                    $_SESSION['kelas'] = $row_akun['kelas'];
+                                    $_SESSION['kategori_kelas'] = $row_akun['kategori_kelas'];
+                                    $_SESSION['alamat_murid'] = $row_akun['alamat_murid'];
+                                    $_SESSION['no_hp'] = $row_akun['no_hp'];
+                                    $_SESSION['gambar'] = $row_akun['gambar'];
                                         // alihkan ke halaman dashboard admin
-                                    } else {
-
-                                        echo("Gagal Mengambil query");
-                                    }
-                                    ?>
-                                    <div class="box-body">
-                                        <div class="form-panel">
-                                            <table id="example" class="table table-hover table-bordered">
-                                                <tr>
-                                                    <td>Kode Murid</td>
-                                                    <td><?php echo $_SESSION['kd_murid']; ?></td>
-                                                    <td rowspan="8"><img src="<?php echo $_SESSION['gambar']; ?>" class="img-rounded" height="300" width="225" style="border: 2px solid #666666;" /></td>
-                                                </tr>                   
-                                                <tr>
-                                                    <td>User ID</td>
-                                                    <td><?php echo $_SESSION['user_id']; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Nama Lengkap</td>
-                                                    <td><?php echo $_SESSION['nama_murid']; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Kelas</td>
-                                                    <td><?php echo $_SESSION['kelas']; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Kategori Kelas</td></td>
-                                                    <td><?php echo $_SESSION['kategori_kelas']; ?></td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>Alamat</td></td>
-                                                    <td><?php echo $_SESSION['alamat_murid']; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>No HP</td>
-                                                    <td><?php echo $_SESSION['no_hp']; ?></td>
-                                                </tr>
-
-                                            </table>
-
-                                            <div class="text-right">
-                                                <a href="../murid/d_murid.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <?php
                                 } else {
 
-                                    $query = mysqli_query($koneksi, "SELECT * FROM murid WHERE kd_murid='$_GET[id]'");
-                                    $data = mysqli_fetch_array($query);
-                                    ?>
-                                    <div class="box-body">
-                                        <div class="form-panel">
-                                            <table id="example" class="table table-hover table-bordered">
-                                                <tr>
-                                                    <td>Kode</td>
-                                                    <td><?php echo $data['kd_murid']; ?></td>
-                                                    <td rowspan="8"><img src="<?php echo $data['gambar']; ?>" class="img-rounded" height="300" width="225" style="border: 2px solid #666666;" /></td>
-                                                </tr>                   
-                                                <tr>
-                                                    <td>Nama</td>
-                                                    <td><?php echo $data['nama_murid']; ?></td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>Kelas</td>
-                                                    <td><?php echo $data['kelas']; ?></td>
-                                                </tr>
-                                                <tr>
-
-                                                    <td>Kategori Kelas</td>
-                                                    <td><?php echo $data['kategori_kelas']; ?></td>
-                                                </tr>
-                                                <tr>
-
-                                                    <td>Alamat</td>
-                                                    <td><?php echo $data['alamat_murid']; ?></td>
-                                                </tr>
-                                                <tr>
-
-                                                    <td>No HP</td>
-                                                    <td><?php echo $data['no_hp']; ?></td>
-                                                </tr>
-
-                                            </table>
-                                            <div class="text-right">
-                                                <a href="../murid/murid.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <?php
+                                    echo("Gagal Mengambil query");
                                 }
                                 ?>
+                                <div class="box-body">
+                                    <div class="form-panel">
+                                        <table id="example" class="table table-hover table-bordered">
+                                            <tr>
+                                                <td>Kode Murid</td>
+                                                <td><?php echo $_SESSION['kd_murid']; ?></td>
+                                                <td rowspan="8"><img src="<?php echo $_SESSION['gambar']; ?>" class="img-rounded" height="300" width="225" style="border: 2px solid #666666;" /></td>
+                                            </tr>                   
+                                            <tr>
+                                                <td>User ID</td>
+                                                <td><?php echo $_SESSION['user_id']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nama Lengkap</td>
+                                                <td><?php echo $_SESSION['nama_murid']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kelas</td>
+                                                <td><?php echo $_SESSION['kelas']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kategori Kelas</td></td>
+                                                <td><?php echo $_SESSION['kategori_kelas']; ?></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Alamat</td></td>
+                                                <td><?php echo $_SESSION['alamat_murid']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>No HP</td>
+                                                <td><?php echo $_SESSION['no_hp']; ?></td>
+                                            </tr>
+
+                                        </table>
+
+                                        <div class="text-right">
+                                            <a href="../murid/d_murid_smp.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            } elseif ($_SESSION['privilege'] == "user_sd") {
+
+                                $qu = mysqli_query($koneksi, "select m.kd_murid, u.user_id, u.username, u.fullname, m.kelas, m.kategori_kelas, m.nama_murid, m.alamat_murid, m.no_hp, m.gambar from murid m inner join user u on u.user_id = m.user_id where username='" . $_SESSION['username'] . "'");
+                                $row_akun = mysqli_fetch_array($qu);
 
 
 
+                                if (mysqli_num_rows($qu) > 0) {
 
 
+                                    $_SESSION['kd_murid'] = $row_akun['kd_murid'];
+                                    $_SESSION['user_id'] = $row_akun['user_id'];
+                                    $_SESSION['username'];
+                                    $_SESSION['nama_murid'] = $row_akun['nama_murid'];
+                                    $_SESSION['kelas'] = $row_akun['kelas'];
+                                    $_SESSION['kategori_kelas'] = $row_akun['kategori_kelas'];
+                                    $_SESSION['alamat_murid'] = $row_akun['alamat_murid'];
+                                    $_SESSION['no_hp'] = $row_akun['no_hp'];
+                                    $_SESSION['gambar'] = $row_akun['gambar'];
+                                        // alihkan ke halaman dashboard admin
+                                } else {
 
+                                    echo("Gagal Mengambil query");
+                                }
+                                ?>
+                                <div class="box-body">
+                                    <div class="form-panel">
+                                        <table id="example" class="table table-hover table-bordered">
+                                            <tr>
+                                                <td>Kode Murid</td>
+                                                <td><?php echo $_SESSION['kd_murid']; ?></td>
+                                                <td rowspan="8"><img src="<?php echo $_SESSION['gambar']; ?>" class="img-rounded" height="300" width="225" style="border: 2px solid #666666;" /></td>
+                                            </tr>                   
+                                            <tr>
+                                                <td>User ID</td>
+                                                <td><?php echo $_SESSION['user_id']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nama Lengkap</td>
+                                                <td><?php echo $_SESSION['nama_murid']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kelas</td>
+                                                <td><?php echo $_SESSION['kelas']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kategori Kelas</td></td>
+                                                <td><?php echo $_SESSION['kategori_kelas']; ?></td>
+                                            </tr>
 
+                                            <tr>
+                                                <td>Alamat</td></td>
+                                                <td><?php echo $_SESSION['alamat_murid']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>No HP</td>
+                                                <td><?php echo $_SESSION['no_hp']; ?></td>
+                                            </tr>
 
+                                        </table>
 
+                                        <div class="text-right">
+                                            <a href="../murid/d_murid_sd.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            } else {
 
-                                <!-- /.box-body -->
+                                $query = mysqli_query($koneksi, "SELECT * FROM murid WHERE kd_murid='$_GET[id]'");
+                                $data = mysqli_fetch_array($query);
+                                ?>
+                                <div class="box-body">
+                                    <div class="form-panel">
+                                        <table id="example" class="table table-hover table-bordered">
+                                            <tr>
+                                                <td>Kode</td>
+                                                <td><?php echo $data['kd_murid']; ?></td>
+                                                <td rowspan="8"><img src="<?php echo $data['gambar']; ?>" class="img-rounded" height="300" width="225" style="border: 2px solid #666666;" /></td>
+                                            </tr>                   
+                                            <tr>
+                                                <td>Nama</td>
+                                                <td><?php echo $data['nama_murid']; ?></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Kelas</td>
+                                                <td><?php echo $data['kelas']; ?></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>Kategori Kelas</td>
+                                                <td><?php echo $data['kategori_kelas']; ?></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>Alamat</td>
+                                                <td><?php echo $data['alamat_murid']; ?></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>No HP</td>
+                                                <td><?php echo $data['no_hp']; ?></td>
+                                            </tr>
+
+                                        </table>
+                                        <div class="text-right">
+                                            <a href="../murid/murid.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <?php
+                            }
+                            ?>
+                            <!-- /.box-body -->
                                 <!-- <div class="box-footer clearfix no-border">
                                   <a href="#" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Tambah Admin</a>
-                                </div> -->
-                            </div><!-- /.box -->
+                              </div> -->
+                          </div><!-- /.box -->
 
-                        </section><!-- /.Left col -->
-                    </div><!-- /.row (main row) -->
+                      </section><!-- /.Left col -->
+                  </div><!-- /.row (main row) -->
 
-                </section><!-- /.content -->
-            </div><!-- /.content-wrapper -->
-            <?php include "../footer.php"; ?>
+              </section><!-- /.content -->
+          </div><!-- /.content-wrapper -->
+          <?php include "../footer.php"; ?>
 
-            <?php include "../sidecontrol.php"; ?>
+          <?php include "../sidecontrol.php"; ?>
             <!-- Add the sidebar's background. This div must be placed
-                 immediately after the control sidebar -->
-            <div class="control-sidebar-bg"></div>
-        </div><!-- ./wrapper -->
+               immediately after the control sidebar -->
+               <div class="control-sidebar-bg"></div>
+           </div><!-- ./wrapper -->
 
-        <!-- jQuery 2.1.4 -->
-        <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
-        <!-- jQuery UI 1.11.4 -->
-        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-        <script>
+           <!-- jQuery 2.1.4 -->
+           <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+           <!-- jQuery UI 1.11.4 -->
+           <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+           <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+           <script>
             $.widget.bridge('uibutton', $.ui.button);
         </script>
         <!-- Bootstrap 3.3.5 -->
@@ -303,4 +371,4 @@ if (empty($_SESSION['username'])) {
         <!-- AdminLTE for demo purposes -->
         <script src="../dist/js/demo.js"></script>
     </body>
-</html>
+    </html>

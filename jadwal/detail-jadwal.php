@@ -5,6 +5,7 @@ if (empty($_SESSION['username'])) {
 } else {
     include "../conn.php";
     ?>
+
     <!DOCTYPE html>
     <html>
         <head>
@@ -36,8 +37,6 @@ if (empty($_SESSION['username'])) {
             <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker-bs3.css">
             <!-- bootstrap wysihtml5 - text editor -->
             <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-            <!-- css table datatables/dataTables -->
-            <link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css"/>
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
             <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -49,10 +48,16 @@ if (empty($_SESSION['username'])) {
         <body class="hold-transition skin-blue sidebar-mini">
             <div class="wrapper">
 
-                <?php include "../header.php";  ?>
-            
+                <?php include "../header.php"; ?>
                 <!-- Left side column. contains the logo and sidebar -->
-                <?php include "../admin/menu.php"; ?>
+                <?php
+                if ($_SESSION['privilege'] == "superuser") {
+
+                    include "../admin/menu.php";
+                } else {
+                    include "../guru/menu_guru.php";
+                }
+                ?>
 
                 <?php
                 $timeout = 10; // Set timeout minutes
@@ -74,13 +79,16 @@ if (empty($_SESSION['username'])) {
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Guru
+                        Pelajaran
                         <small>ECMS</small>
                     </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="../guru/guru.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                        <li class="active">Guru</li>
-                    </ol>
+                    
+                    
+                        <ol class="breadcrumb">
+                            <li><a href="guru.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                            <li class="active">Detail Pelajaran</li>
+                        </ol>    
+                    
                 </section>
 
                 <!-- Main content -->
@@ -94,59 +102,52 @@ if (empty($_SESSION['username'])) {
                             <div class="box box-primary">
                                 <div class="box-header">
                                     <i class="ion ion-clipboard"></i>
-                                    <h3 class="box-title">Data Guru</h3>
-                                    <div class="box-tools pull-right">
-                                    </div> 
+                                    <h3 class="box-title">Detail Data Guru</h3>
+                                    <!-- <div class="box-tools pull-right">
+                                      <ul class="pagination pagination-sm inline">
+                                        <li><a href="#">&laquo;</a></li>
+                                        <li><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">&raquo;</a></li>
+                                      </ul>
+                                    </div> -->
                                 </div><!-- /.box-header -->
-
-                                <div class="box-body">
-                                    <?php
-                                    if (isset($_GET['aksi']) == 'delete') {
-                                        $kd_guru = $_GET['kd_guru'];
-                                        $cek = mysqli_query($koneksi, "SELECT * FROM guru WHERE kd_guru='$kd_guru'");
-                                        if (mysqli_num_rows($cek) == 0) {
-                                            echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data tidak ditemukan !</div>';
-                                        } else {
-                                            $delete = mysqli_query($koneksi, "DELETE FROM guru WHERE kd_guru='$kd_guru'");
-                                             $delete2 = mysqli_query($koneksi, "DELETE FROM user WHERE username='$kd_guru'");
-                                            if ($delete && $delete2) {
-                                                echo "<script>alert('Data berhasil dihapus !'); window.location = 'guru.php'</script>";
-                                            } else {
-                                                echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data gagal dihapus !</div>';
-                                            }
-                                        }
-                                    }
-                                    ?>
-                                    <!-- <form action='admin.php' method="POST">
                               
-                                   <input type='text' class="form-control" style="margin-bottom: 4px;" name='qcari' placeholder='Cari berdasarkan User ID dan Username' required /> 
-                               <input type='submit' value='Cari Data' class="btn btn-sm btn-primary" /> <a href='admin.php' class="btn btn-sm btn-success" >Refresh</i></a>
-                                    </div>
-                                </form>-->
-                                    <a href="member_importxls.php" class="btn btn-sm btn-warning"><i class="fa fa-file"></i> Import Excel</a> <a href="member_exportxls.php" class="btn btn-sm btn-success"><i class="fa fa-file"></i> Export Excel</a><br /><br />
-                                    <div class="table">
-                                        <table id="lookup" class="table table-bordered table-hover">  
-                                            <thead bgcolor="eeeeee" align="center">
+                                    <?php
+                                    $kdp = $_GET['id'];   
+                                    $query = mysqli_query($koneksi, "SELECT kd_pelajaran, nama_pelajaran, kategori_kelas FROM pelajaran WHERE kd_pelajaran='$kdp'");
+                                    $data = mysqli_fetch_array($query);
+                                    ?>
+                                    <div class="box-body">
+                                        <div class="form-panel">
+                                            <table id="example" class="table table-hover table-bordered">
                                                 <tr>
-
-                                                    <th>Kode</th>
-                                                    <th>Nama lengkap </th>
-												    <th>Alamat</th>
-                                                    <th>No HP</th>
-                                                  <th class="text-center"> Action </th> 
-
+                                                    <td>Kode</td>
+                                                    <td><?php echo $data['kd_pelajaran']; ?></td>
+                                                    
+                                                </tr>                   
+                                                <tr>
+                                                    <td>Nama Pelajaran</td>
+                                                    <td><?php echo $data['nama_pelajaran']; ?></td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
 
+                                                <tr>
+                                                    <td>Kategori Kelas</td>
+                                                    <td><?php echo $data['kategori_kelas']; ?></td>
+                                                </tr>
+                                                                                            </table>
+                                            <div class="text-right">
+                                                <a href="../guru/guru.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
+                                            </div>
 
-                                            </tbody>
-                                        </table>
+                                        </div>
                                     </div>
-                                </div><!-- /.box-body -->
-                                <div class="box-footer clearfix no-border">
-                                    <a href="input-guru.php" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> Tambah Guru</a>
-                                </div>
+
+                                <!-- /.box-body -->
+                                <!-- <div class="box-footer clearfix no-border">
+                                  <a href="#" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Tambah Admin</a>
+                                </div> -->
                             </div><!-- /.box -->
 
                         </section><!-- /.Left col -->
@@ -164,44 +165,40 @@ if (empty($_SESSION['username'])) {
 
         <!-- jQuery 2.1.4 -->
         <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>
         <!-- Bootstrap 3.3.5 -->
         <script src="../bootstrap/js/bootstrap.min.js"></script>
-        <!-- DataTables -->
-        <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
-        <!-- SlimScroll -->
+        <!-- Morris.js charts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="../plugins/morris/morris.min.js"></script>
+        <!-- Sparkline -->
+        <script src="../plugins/sparkline/jquery.sparkline.min.js"></script>
+        <!-- jvectormap -->
+        <script src="../plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="../plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+        <!-- jQuery Knob Chart -->
+        <script src="../plugins/knob/jquery.knob.js"></script>
+        <!-- daterangepicker -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+        <script src="../plugins/daterangepicker/daterangepicker.js"></script>
+        <!-- datepicker -->
+        <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
+        <!-- Bootstrap WYSIHTML5 -->
+        <script src="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+        <!-- Slimscroll -->
         <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
         <script src="../plugins/fastclick/fastclick.min.js"></script>
         <!-- AdminLTE App -->
         <script src="../dist/js/app.min.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="../dist/js/pages/dashboard.js"></script>
         <!-- AdminLTE for demo purposes -->
         <script src="../dist/js/demo.js"></script>
-              <!--<script type="text/javascript"> 
-    
-                $(function () {
-                    $("#lookup").dataTable({"lengthMenu":[25,50,75,100],"pageLength":25});
-                });
-      
-       
-            </script>-->
-        <script>
-            $(document).ready(function() {
-                var dataTable = $('#lookup').DataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "ajax": {
-                        url: "ajax-grid-guru.php", // json datasource
-                        type: "post", // method  , by default get
-                        error: function() {  // error handling
-                            $(".lookup-error").html("");
-                            $("#lookup").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-                            $("#lookup_processing").css("display", "none");
-
-                        }
-                    }
-                });
-            });
-        </script>
     </body>
 </html>

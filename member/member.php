@@ -77,7 +77,7 @@ if (empty($_SESSION['username'])) {
                         <small>ECMS</small>
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                        <li><a href="../member/d_member.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                         <li class="active">Staff</li>
                     </ol>
                 </section>

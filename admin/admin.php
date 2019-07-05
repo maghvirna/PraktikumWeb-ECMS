@@ -169,9 +169,7 @@ $_SESSION['start_time'] = time();
                    </tbody>
                    </table>
                 </div><!-- /.box-body -->
-                <div class="box-footer clearfix no-border">
-                  <a href="input-admin.php" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> Tambah User</a>
-                  </div>
+                
               </div><!-- /.box -->
 
             </section><!-- /.Left col -->

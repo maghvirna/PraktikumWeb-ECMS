@@ -1,3 +1,21 @@
+<script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+             <script>
+  // Function ini dijalankan ketika Halaman ini dibuka pada browser
+  $(function(){
+     setInterval(timestamp, 1000);//fungsi yang dijalan setiap detik, 1000 = 1 detik
+   });
+
+    //Fungi ajax untuk Menampilkan Jam dengan mengakses File ajax_timestamp.php
+    function timestamp() {
+     $.ajax({
+       url: '../ajax_timestamp.php',
+       success: function(data) {
+         $('#timestampss').html(data);
+       },
+     });
+   }
+ </script>
+
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -22,12 +40,13 @@
             </div>
             <div class="pull-left info">
                 <p><?php echo $_SESSION['fullname']; ?></p>
-                <a href="../admin/index.php"><i class="fa fa-circle text-success"></i> Online</a>
+                <a><i class="fa fa-circle text-success"></i> Online</a>
+                <h5 id="timestampss"></h5>
             </div>
         </div><br />
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li class="header">MENU UTAMA</li>
+            <li class="header">MENU UTAMA<</li>
             <li class="active treeview">
                 <a href="../member/d_member.php">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -70,6 +89,28 @@
             </li>
             <li>
                 <a href="#">
+                    <i class="fa fa-file"></i> <span>Pelajaran</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="../pelajaran/pelajaran.php"><i class="fa fa-circle-o"></i> Data Pelajaran</a></li>
+                    <li><a href="../pelajaran/input-pelajaran.php"><i class="fa fa-circle-o"></i> Input Pelajaran</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-file"></i> <span>Jadwal</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="../jadwal/jadwal.php"><i class="fa fa-circle-o"></i> Data Jadwal</a></li>
+                     <li><a href="../jadwal/input_jadwal.php"><i class="fa fa-circle-o"></i>Input Jadwal</a>
+                    <li><a href="../jadwal/jadwal_sd.php"><i class="fa fa-circle-o"></i>Jadwal SD</a></li>
+                    <li><a href="../jadwal/jadwal_smp.php"><i class="fa fa-circle-o"></i>Jadwal SMP</a></li>
+                    
+                </ul>
+            </li>
+            
+            <li>
+                <a href="#">
                     <i class="fa fa-file"></i> <span>Cetak ID Card</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
@@ -87,7 +128,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="../admin/admin.php"><i class="fa fa-circle-o"></i> User Management</a></li>
-                    <li><a href="../admin/input-admin.php"><i class="fa fa-circle-o"></i> Tambah User</a></li>
+                    
                 </ul>
             </li>
             <!-- <li class="treeview">

@@ -1,12 +1,10 @@
 <?php 
 session_start();
 if (empty($_SESSION['username'])){
-	header('location:../admin/index.php');	
+  header('location:../admin/index.php');  
 } else {
-	include "../conn.php";
-	
+  include "../conn.php";
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -39,7 +37,7 @@ if (empty($_SESSION['username'])){
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <!-- css table datatables/dataTables -->
-	<link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css"/>
+  <link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -53,11 +51,9 @@ if (empty($_SESSION['username'])){
 
       <?php include "../header.php"; ?>
       <!-- Left side column. contains the logo and sidebar -->
-		<?php include "../guru/menu_guru.php"; ?>
-	  
-	
-	<?php
-	
+      <?php include "../admin/menu.php"; ?>
+
+<?php
 $timeout = 10; // Set timeout minutes
 $logout_redirect_url = "../index.php"; // Set logout URL
 
@@ -77,11 +73,11 @@ $_SESSION['start_time'] = time();
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            <b>Jadwal Pembelajaran</b>
+            <b>Jadwal Pembelajaran Mingguan</b>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="d_guru.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active">Guru</li>
+            <li><a href="jadwal.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">Jadwal SD</li>
           </ol>
         </section>
 
@@ -101,35 +97,53 @@ $_SESSION['start_time'] = time();
                   </div> 
                 </div><!-- /.box-header -->
                 
+                 <div class="box-body">
+            <?php
+
+            if(isset($_GET['aksi']) == 'delete'){
+              $kdjad = $_GET['id'];
+              $cek = mysqli_query($koneksi, "SELECT * FROM jadwal WHERE kd_jadwal='$kdjad'");
+              if(mysqli_num_rows($cek) == 0){
+               echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data tidak ditemukan.</div>';
+             }else{
+               $delete = mysqli_query($koneksi, "DELETE FROM jadwal WHERE kd_jadwal='$kdjad'");
+               if ($delete) {
+                echo "<script>alert('Data berhasil dihapus !'); window.location = 'jadwal.php'</script>";
+              }else{
+                echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data gagal dihapus.</div>';
+              }
+            }
+          }
+          ?>
+
                 <div class="box-body">
              
                  <div class="table">
                    <table id="lookup" class="table table-bordered table-hover">  
-	<thead bgcolor="eeeeee" align="center">
+  <thead bgcolor="eeeeee" align="center">
       <tr>
-	  
+    
         
-         <th>Nama Lengkap</th>
-		<th>Nama Pelajaran</th> 
-    <th>Hari</th>
-    <th>Tanggal</th>
-		<th>Jam Mulai</th>
+        <th>Nama Pelajaran</th> 
+        <th>Nama Guru</th>
+        <th>Kategori Kelas</th>
+        <th>Hari</th>
+        <th>Tanggal</th>
+    <th>Jam Mulai</th>
         <th>Jam Selesai</th>
-		<th>Ruang</th>
-		
-	  
+    <th>Ruang</th>
+
+    
       </tr>
     </thead>
     <tbody>
-	 
-					 
+   
+           
     </tbody>
   </table>
   </div>
                 </div><!-- /.box-body -->
-                <div class="box-footer clearfix no-border">
-                  
-                  </div>
+                
               </div><!-- /.box -->
 
             </section><!-- /.Left col -->
@@ -160,7 +174,7 @@ $_SESSION['start_time'] = time();
     <script src="../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
-	  <!--<script type="text/javascript"> 
+    <!--<script type="text/javascript"> 
 
             $(function () {
                 $("#lookup").dataTable({"lengthMenu":[25,50,75,100],"pageLength":25});
@@ -170,21 +184,21 @@ $_SESSION['start_time'] = time();
         </script>-->
  <script>
         $(document).ready(function() {
-				var dataTable = $('#lookup').DataTable( {
-					"processing": true,
-					"serverSide": true,
-					"ajax":{
-						url :"ajax-grid-d_guru.php", // json datasource
-						type: "post",  // method  , by default get
-						error: function(){  // error handling
-							$(".lookup-error").html("");
-							$("#lookup").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-							$("#lookup_processing").css("display","none");
-							
-						}
-					}
-				} );
-			} );
+        var dataTable = $('#lookup').DataTable( {
+          "processing": true,
+          "serverSide": true,
+          "ajax":{
+            url :"ajax-grid-jadwal-smp.php", // json datasource
+            type: "post",  // method  , by default get
+            error: function(){  // error handling
+              $(".lookup-error").html("");
+              $("#lookup").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+              $("#lookup_processing").css("display","none");
+              
+            }
+          }
+        } );
+      } );
         </script>
   </body>
 </html>

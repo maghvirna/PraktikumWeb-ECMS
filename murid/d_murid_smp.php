@@ -76,7 +76,7 @@ $_SESSION['start_time'] = time();
             <b>Jadwal Pembelajaran Mingguan</b>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="d_murid.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="d_murid_smp.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             <li class="active">Murid</li>
           </ol>
         </section>
@@ -107,6 +107,9 @@ $_SESSION['start_time'] = time();
         
         <th>Nama Pelajaran</th> 
         <th>Nama Guru</th>
+        <th>Kategori Kelas</th>
+        <th>Hari</th>
+        <th>Tanggal</th>
 		<th>Jam Mulai</th>
         <th>Jam Selesai</th>
 		<th>Ruang</th>
@@ -167,7 +170,7 @@ $_SESSION['start_time'] = time();
 					"processing": true,
 					"serverSide": true,
 					"ajax":{
-						url :"ajax-grid-d_murid.php", // json datasource
+						url :"ajax_grid_d_murid_smp.php", // json datasource
 						type: "post",  // method  , by default get
 						error: function(){  // error handling
 							$(".lookup-error").html("");

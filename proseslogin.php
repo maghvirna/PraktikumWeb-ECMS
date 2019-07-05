@@ -36,8 +36,11 @@ if (mysqli_num_rows($q) == 1) {
     elseif ($row['privilege'] == "admin") {
         header("location:guru/d_guru.php"); 
     }
-    elseif ($row['privilege'] == "user") {
-        header("location:murid/d_murid.php"); 
+    elseif ($row['privilege'] == "user_smp" ) {
+        header("location:murid/d_murid_smp.php"); 
+    }
+    elseif ($row['privilege'] == "user_sd" ) {
+       header("location:murid/d_murid_sd.php"); 
     }
     
 }else {
